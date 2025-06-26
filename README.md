@@ -10,6 +10,7 @@ This repository contains:
 - A synthetic evaluation dataset of 10,000 domain-specific sentences was constructed by sampling:
   - 2,000 sentences each from: **medical**, **addresses**, **celebrities**, and **sport players**
   - 1,000 sentences each from: **legal** and **banking**- Sample scripts for **TTS inference** and **ASR transcription**.
+- ✅ This **10,000-sentence evaluation set** used in our experiments is **publicly available** in this repository.
 - Benchmark results (WER/CER) across multiple open-source models.
 
 
