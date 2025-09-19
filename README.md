@@ -1,4 +1,4 @@
-# 🗂️ PodoText: Domain-Specific Text Dataset for Speech Synthesis Using LLM-Based Text Generation
+# 🗂️ Podo Text: DOMAIN-SPECIFIC TEXT DATASET FOR TEXT-TO-SPEECH BENCHMARK
 
 
 **PodoText** is a domain-specific text dataset designed for benchmarking Text-to-Speech (TTS) and Automatic Speech Recognition (ASR) systems. It was created using both fine-tuning and prompting approaches on large language models (LLMs) to generate high-quality, domain-relevant text.
