@@ -16,13 +16,13 @@ This repository contains:
 
 ## 🧠 Key Features
 
-- **6 Domains**: Medical, Addresses, Sport Players, Celebrities, Banking, Legal  
+- **6 Domains**: Medical, Addresses, Sports Players, Celebrities, Banking, Legal  
 - **Data Sources**: ChatGPT-4o, Gemini API, DrugBank, OpenAddresses, IMDb, etc.
 - **Text Generation Methods**:
   - **Fine-tuning** 
   - **Prompting** 
-  - 4 TTS models: Kokoro, Chatterbox, OuteTTS, MeloTTS
-  - 3 ASR models: Whisper, Wav2Vec2, Parakeet
+  - 4 TTS models: Kokoro, Chatterbox, Higgs, MeloTTS
+  - 4 ASR models: Whisper, Wav2Vec2, Parakeet, Hubert
   - Evaluation metrics: WER, CER
 
 
@@ -31,15 +31,35 @@ This repository contains:
 **🗣️ Text-to-Speech (TTS) Models**
 - [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M)
 - [Chatterbox](https://huggingface.co/ResembleAI/chatterbox)
-- [OuteTTS-1.0-0.6B](https://huggingface.co/OuteAI/OuteTTS-1.0-0.6B)
 - [MeloTTS](https://huggingface.co/myshell-ai/MeloTTS-English)
+- [Higgs](https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base)
 
 **🎧 Automatic Speech Recognition (ASR) Models**
 - [Whisper (whisper-large-v3-turbo)](https://huggingface.co/openai/whisper-large-v3-turbo)
 - [Parakeet (parakeet-tdt-0.6b-v2)](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2)
 - [Wav2Vec2-base-960h](https://huggingface.co/facebook/wav2vec2-base-960h)
+- [Hubert (hubert-xlarge-ls960-ft)](https://huggingface.co/facebook/hubert-xlarge-ls960-ft)
 
-Each TTS model synthesized 10,000 audio samples from the dataset, and each ASR model transcribed those audio files. We calculated Word Error Rate (WER) and Character Error Rate (CER) for evaluation.
+Each TTS model synthesized 10,000 audio samples from the dataset, and each ASR model transcribed those audio files. We calculated Word Error Rate (WER) and Character Error 
+
+---
+
+🎙️**Human Speech Recordings**
+
+We collected **human-recorded speech samples** aligned with the same text prompts to enable direct comparison with TTS-generated outputs.
+
+- **Total Samples**: 1,800  
+  - **1,000 samples** from the *medical* domain  
+  - **200 samples each** from *addresses*, *celebrities*, *sports players*  
+  - **100 samples each** from *banking* and *legal* domains  
+
+- **Domain-Specific Requirement (Medical)**:  
+  - For the medical domain, recordings were restricted to participants with **professional backgrounds** (e.g., doctors, nurses, pharmacists)  
+  - This ensured **accurate and domain-appropriate pronunciations** of specialized terms
+
+- **Usage**:  
+  - Human recordings were used to **compare performance** with TTS-generated speech  
+  - They were also employed to **fine-tune ASR models** in the medical domain
 
 ## 🧪 Experiments
 
@@ -52,38 +72,72 @@ To evaluate the effectiveness of the PodoText dataset, we conducted benchmark ex
 - **TTS Models**:
   - Kokoro-82M
   - Chatterbox
-  - OuteTTS-1.0-0.6B
   - MeloTTS
+  - Higgs
 - **ASR Models**:
   - Whisper (large-v3-turbo)
   - Wav2Vec2-base-960h
   - Parakeet-TDT
+  - Hubert (hubert-xlarge-ls960-ft)
 - **Metrics**: Word Error Rate (WER), Character Error Rate (CER)
 
 
 
-### 📊 Overall WER & CER Results
+## Results
 
-<img src="https://github.com/podonos/podotext/blob/main/Table2_image.png" alt="WER AND CER RESULTS OF TTS-GENERATED SPEECH ACROSS ALL DOMAINS" width="700"/>
+### Human vs. TTS Speech
+- *Comparison of WER and CER between human-recorded speech and TTS-generated speech across six domains.*  
+- Human speech consistently achieved lower error rates, while some TTS models (e.g., Kokoro) showed reduced CER by spelling out OOV words.
 
-### 📌 WER & CER by Domain
-
-<img src="https://github.com/podonos/podotext/blob/main/Table3_image.png" alt="WER AND CER RESULTS BY DOMAIN AND TTS MODEL" width="700"/>
+<img width="1274" height="621" alt="image" src="https://github.com/user-attachments/assets/838348d0-99c0-49be-a53a-82a4b41fe430" />
 
 
 
+
+---
+
+### Error Rate Variations Across Models
+- *Comparison of error rates across different TTS and ASR models.*  
+- Results show substantial performance variations depending on the TTS model and the ASR system used.
+<img width="1676" height="562" alt="image" src="https://github.com/user-attachments/assets/59a6d9b4-1be3-44e4-9a82-418b1aa240a7" />
+
+---
+
+### Domain-Specific Results
+- *WER and CER results of TTS models evaluated in each domain.*  
+- Domain-specific datasets resulted in higher errors than the general-purpose LJSpeech dataset, confirming the difficulty of domain adaptation.
+<img width="1674" height="833" alt="image" src="https://github.com/user-attachments/assets/847047f1-05e1-4824-923d-766e971692a6" />
+
+---
+
+
+### Medical Domain Analysis 
+- *Comparison of human and TTS-generated speech specifically in the medical domain.*  
+- Human speech generally showed the lowest errors, but in some cases Kokoro produced lower CER by spelling out OOV words letter-by-letter, which certain ASR models merged correctly.
+<img width="1662" height="679" alt="image" src="https://github.com/user-attachments/assets/51e3f2e5-d8e8-465d-9035-fa4321c873e8" />
+
+---
+
+### Medical Domain Fine-Tuning
+- *Effect of fine-tuning ASR models with human medical recordings.*  
+- Fine-tuned ASR models showed reduced error rates for both human and TTS-generated speech, demonstrating the value of domain-specific adaptation.
+
+
+<img width="1684" height="654" alt="image" src="https://github.com/user-attachments/assets/d1364da4-7445-40f3-9a86-851db7b16274" />
+
+
+---
 
 ### 🔍 Key Insights
 
-- 🏆 **MeloTTS** showed the best performance on average (WER 14.7%, CER 4.6%).
-- 🧠 **Whisper** consistently outperformed other ASR models.
-- 🏙️ **Addresses** and **medicine** domains showed high error rates due to variability and terminology.
-- 📈 These results validate the value of PodoText for benchmarking realistic, domain-specific speech systems.
+- 🗣️ **Human recordings** consistently achieved lower WER/CER than TTS-generated speech, confirming the gap between natural and synthetic speech.  
+- 🔤 **Kokoro** occasionally outperformed human speech in CER by spelling out OOV terms letter-by-letter, which some ASR models merged correctly.  
+- ⚖️ **Error rates varied widely** depending on both the TTS and ASR models, showing strong model-specific biases.  
+- 🏷️ **Domain-specific datasets** (medical, addresses, sports, etc.) produced higher errors compared to general-purpose LJSpeech, highlighting domain difficulty.  
+- 🩺 **Fine-tuning ASR models with human medical recordings** reduced WER, demonstrating the effectiveness of domain adaptation using PodoText.
 
 
-
-
-
+---
 
 ## 📁 Dataset Structure
 
